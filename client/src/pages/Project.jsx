@@ -1,5 +1,6 @@
 import { useQuery } from "@apollo/client"
 import { Link, useParams } from "react-router-dom"
+import ClientInfo from "../components/ClientInfo"
 import Spinner from "../components/Spinner"
 import { GET_PROJECT } from "../querries/projectQuery"
 

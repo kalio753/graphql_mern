@@ -13,7 +13,7 @@ const AddClientModal = () => {
             const { clients } = cache.readQuery({ query: GET_CLIENTS })
             cache.writeQuery({
                 query: GET_CLIENTS,
-                data: [...clients, addClient],
+                data: { clients: [...clients, addClient] },
             })
         },
     })
@@ -29,6 +29,14 @@ const AddClientModal = () => {
 
     const onSubmit = (data) => {
         console.log(data)
+
+        addClient({
+            variables: {
+                name: data.name,
+                email: data.email,
+                phone: data.phone,
+            },
+        })
     }
 
     useEffect(() => {
