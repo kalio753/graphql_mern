@@ -3,23 +3,24 @@ import { FaList } from "react-icons/fa"
 import { useForm } from "react-hook-form"
 import { useMutation, useQuery } from "@apollo/client"
 import { GET_CLIENTS } from "../querries/clientQuery"
-import Spinner from "./Spinner"
+import { ADD_PROJECT } from "../mutations/projectMutation"
+import { GET_PROJECTS } from "../querries/projectQuery"
 
 const AddProjectModal = () => {
     // Get Clients for <select>
     const { loading, error, data } = useQuery(GET_CLIENTS)
 
-    let name, email, phone
-    // const [addClient] = useMutation(ADD_CLIENT, {
-    //     variables: { name, email, phone },
-    //     update(cache, { data: addClient }) {
-    //         const { clients } = cache.readQuery({ query: GET_CLIENTS })
-    //         cache.writeQuery({
-    //             query: GET_CLIENTS,
-    //             data: { clients: [...clients, addClient] },
-    //         })
-    //     },
-    // })
+    let name, description, status, clientId
+    const [addProject] = useMutation(ADD_PROJECT, {
+        variables: { name, description, status, clientId },
+        update(cache, { data: addProject }) {
+            const { projects } = cache.readQuery({ query: GET_PROJECTS })
+            cache.writeQuery({
+                query: GET_PROJECTS,
+                data: { projects: [...projects, addProject] },
+            })
+        },
+    })
 
     const {
         register,
@@ -32,6 +33,15 @@ const AddProjectModal = () => {
 
     const onSubmit = (data) => {
         console.log(data)
+
+        addProject({
+            variables: {
+                name: data.name,
+                description: data.description,
+                status: data.status,
+                clientId: data.clientId,
+            },
+        })
 
         // addClient({
         //     variables: {
@@ -188,9 +198,15 @@ const AddProjectModal = () => {
                                             </label>
                                             <select
                                                 id="client_id"
-                                                {...register("client_id")}
+                                                {...register("clientId", {
+                                                    required:
+                                                        "Please select a client",
+                                                })}
                                                 className="form-select"
                                             >
+                                                <option value="">
+                                                    Select Client
+                                                </option>
                                                 {data?.clients.map((client) => (
                                                     <option
                                                         value={client.id}
@@ -200,7 +216,7 @@ const AddProjectModal = () => {
                                                     </option>
                                                 ))}
                                             </select>
-                                            {/* {errors.client && (
+                                            {errors.clientId && (
                                                 <p
                                                     role="alert"
                                                     style={{
@@ -209,9 +225,9 @@ const AddProjectModal = () => {
                                                         fontStyle: "italic",
                                                     }}
                                                 >
-                                                    {errors.client?.message}
+                                                    {errors.clientId?.message}
                                                 </p>
-                                            )} */}
+                                            )}
                                         </div>
                                         <button
                                             className="btn btn-primary"
