@@ -10,9 +10,9 @@ const AddProjectModal = () => {
     // Get Clients for <select>
     const { loading, error, data } = useQuery(GET_CLIENTS)
 
-    let name, description, status, clientId
+    let prjName, description, status, clientId
     const [addProject] = useMutation(ADD_PROJECT, {
-        variables: { name, description, status, clientId },
+        variables: { prjName, description, status, clientId },
         update(cache, { data: addProject }) {
             const { projects } = cache.readQuery({ query: GET_PROJECTS })
             cache.writeQuery({
@@ -36,7 +36,7 @@ const AddProjectModal = () => {
 
         addProject({
             variables: {
-                name: data.name,
+                name: data.prjName,
                 description: data.description,
                 status: data.status,
                 clientId: data.clientId,
@@ -54,7 +54,7 @@ const AddProjectModal = () => {
 
     useEffect(() => {
         if (formState.isSubmitSuccessful) {
-            reset({ name: "", email: "", phone: "" })
+            reset({ prjName: "", description: "", status: "", clientId: "" })
         }
     }, [formState, reset])
 
@@ -113,13 +113,13 @@ const AddProjectModal = () => {
                                             <input
                                                 type="text"
                                                 className="form-control"
-                                                id="name"
-                                                {...register("name", {
+                                                id="prjName"
+                                                {...register("prjName", {
                                                     required:
                                                         "This field cannot be blank",
                                                 })}
                                             />
-                                            {errors.name && (
+                                            {errors.prjName && (
                                                 <p
                                                     role="alert"
                                                     style={{
@@ -128,7 +128,7 @@ const AddProjectModal = () => {
                                                         fontStyle: "italic",
                                                     }}
                                                 >
-                                                    {errors.name?.message}
+                                                    {errors.prjName?.message}
                                                 </p>
                                             )}
                                         </div>
