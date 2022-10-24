@@ -25,7 +25,6 @@ const AddProjectModal = () => {
     const {
         register,
         handleSubmit,
-        watch,
         reset,
         formState,
         formState: { errors, isSubmitSuccessful },
@@ -52,6 +51,7 @@ const AddProjectModal = () => {
         // })
     }
 
+    // Reset form fields
     useEffect(() => {
         if (formState.isSubmitSuccessful) {
             reset({ prjName: "", description: "", status: "", clientId: "" })
