@@ -2,7 +2,9 @@
 
 **_Step 1:_** npm install
 
-**_Step 2:_** create .env file in \_\_/graphql-mern/.env with the following contents: `PORT = 5000`
+**_Step 2:_** create .env file in \_\_/graphql-mern/.env with the following contents: 
+
+`PORT = 5000`
 
 `NODE_ENV = "development"`
 
